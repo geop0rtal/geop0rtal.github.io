@@ -1,0 +1,97 @@
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.legend {
+    line-height: 20px;
+    color: #555;
+}
+.legend i {
+    width: 30px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+.textinfo  {
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    position: absolute;
+    top: 230px;
+    right: 165px;
+    padding: 10px;
+    z-index: 400;
+    color: hsl(0, 0%, 0%);
+    background: white;
+    border: 1px solid #000000;
+box-sizing: border-box;
+filter: drop-shadow(1px 4px 5px #000000);
+border-radius: 12px;
+}
+.infotext1  {
+    position: absolute;
+    overflow-y: scroll;
+    top: 275px;
+    width: 250px;
+    height: 200px;
+    right: 40px;
+    padding: 10px;
+    z-index: 400;
+    color: hsl(0, 0%, 0%);
+    background: white;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    filter: drop-shadow(1px 4px 5px #000000);
+    border-radius: 12px;
+}
+#refreshButton {
+    position: absolute;
+    top: 150px;
+    left: 40px;
+    padding: 10px;
+    z-index: 400;
+    color: hsl(0, 0%, 0%);
+    background: white;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    filter: drop-shadow(1px 4px 5px #000000);
+    border-radius: 12px;
+    
+    
+  }
+
+  #refreshButton1 {
+    position: absolute;
+    top: 200px;
+    left: 40px;
+    padding: 10px;
+    z-index: 400;
+    color: hsl(0, 0%, 0%);
+    background: white;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    filter: drop-shadow(1px 4px 5px #000000);
+    border-radius: 12px;
+  }
+  #refreshButton2 {
+    position: absolute;
+    top: 250px;
+   left: 40px;
+    padding: 10px;
+    z-index: 400;
+    color: hsl(0, 0%, 0%);
+    background: white;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    filter: drop-shadow(1px 4px 5px #000000);
+    border-radius: 12px;
+  }
+ 

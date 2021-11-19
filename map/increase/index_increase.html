@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+
+   <link rel="stylesheet" href="../dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="../dist/MarkerCluster.Default.css" />
+	<script src="../dist/leaflet.markercluster-src.js"></script>
+    <script src="../src/geojson.js"></script>
+
+    <link rel="stylesheet" href="../src/info.css">
+
+    <style>
+        #map {position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
+    </style>
+<head>
+<body>
+    <div id="map"></div>
+    <script>
+          var map = L.map('map').setView([49.84, 24.02], 12);  
+          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/light-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoibmF6YXJycjAwIiwiYSI6ImNrcGdxNXJnZDJqaWYybm54emxpMmJzemUifQ.V3e6f8verXKwrwKDuMVJ-A'
+}).addTo(map);
+
+
+    function getColor(d) {
+    return d > -3 ? '#fef0d9' :
+           d > -6  ? '#fdd49e' :
+           d > -7  ? '#fdbb84' :
+           d > -9  ? '#fc8d59' :
+           d > -10   ? '#ef6548' :
+           d > -11   ? '#d7301f' :
+                            '#990000';
+}
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.increase),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+L.geoJson(lvivadmin, {style: style}).addTo(map);
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }    info.update(layer.feature.properties);
+}
+function resetHighlight(e) {
+    geojson.resetStyle(e.target); info.update();
+}
+var geojson;
+// ... our listeners
+geojson = L.geoJson(lvivadmin);
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+geojson = L.geoJson(lvivadmin, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>INFO>>>>>>>>>>>>>>>>>>>>>>>INFO>>>>>>>>>>>>>>>>>>>>>>>>INFO>>>>>>>>>>>>>>>>>....
+// method that we will use to update the control based on feature properties passed
+var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = '<h4>Природний приріст населення.</h4>' + '<h4> Дані станом на 1 січня 2021р.</h4>' + '<b>' +  (props ?
+			'<b>' + props.name + '</b><br />' + props.increase + '‰  Природний приріст (+/-) на 1000 осіб наявного населення'
+			: 'Наведіть курсор на район');
+	};
+
+	info.addTo(map);
+var legend = L.control({position: 'bottomleft'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [-15 , -11 , -10 , -9 , -7 , -6 , -3 ],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+//>>>>>>>>>>>>>>>>................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.................................>>>>>>>>>>>>>>>>>>>>>.....>>>
+
+L.control.scale().addTo(map);
+//>>>>>>>>>>>>>>>>................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.................................>>>>>>>>>>>>>>>>>>>>>.....>>>
+
+    </script>
+
+
+<a href="../increase/index_increase.html"><button id="refreshButton">Приріст населення</button></a>
+<a href="../people/index.html"><button id="refreshButton1">Наявна к-сть населення</button></a>
+<a href="../relation/index.html"><button id="refreshButton2">Зміни за останні 20р.</button></a>
+</body>
